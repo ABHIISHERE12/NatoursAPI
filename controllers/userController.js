@@ -1,6 +1,24 @@
 const fs = require('fs');
+const express = require('express');
 
 users = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/users.json`));
+
+exports.checkID = (req, res, next, val) => {
+  if (val > tours.length) {
+    return res.status(404).json({
+      status: 'failed',
+      message: 'could not find id',
+    });
+  }
+  next();
+};
+
+exports.checkBody = (req, res, next) => {
+  if (!req.body.name && !req.body.price) {
+    return res.status(400).send('Enter name to continue');
+  }
+  next();
+};
 exports.getAllUsers = (req, res) => {
   res.status(200).json({
     status: 'success',
